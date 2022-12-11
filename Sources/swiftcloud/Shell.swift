@@ -1,5 +1,9 @@
 import Foundation
 
+enum ShellError: Error {
+    case badDataString
+}
+
 @discardableResult
 func shell(_ command: String) throws -> String {
     let task = Process()
@@ -14,7 +18,7 @@ func shell(_ command: String) throws -> String {
     try task.run()
     
     let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    let output = String(data: data, encoding: .utf8)!
+    guard let output = String(data: data, encoding: .utf8) else { throw ShellError.badDataString }
     
     return output
 }
