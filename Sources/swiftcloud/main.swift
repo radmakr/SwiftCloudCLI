@@ -47,7 +47,7 @@ struct `Init`: ParsableCommand {
                 print(gitOutput)
             }
         } catch {
-            print("There was an error: \(error.localizedDescription)")
+            print(error.localizedDescription)
         }
     }
 }
@@ -60,7 +60,7 @@ struct Build: ParsableCommand {
             let output = try shell("swift build -c debug --triple wasm32-unknown-wasi")
             print(output)
         } catch {
-            print("Error building")
+            print(error.localizedDescription)
         }
     }
 }
@@ -76,7 +76,7 @@ struct Run: ParsableCommand {
             let output = try shell("fastly compute serve --skip-build --file ./.build/debug/\(name).wasm")
             print(output)
         } catch {
-            print("Error running")
+            print(error.localizedDescription)
         }
     }
 }
