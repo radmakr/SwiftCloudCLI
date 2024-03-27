@@ -39,13 +39,15 @@ struct `Init`: ParsableCommand {
     
     func run() throws {
         do {
-            try shell("swift package init --type executable")
+            let output = try shell("swift package init --type executable")
+            print(output)
             
             if includeGit {
-                try shell("git init")
+                let gitOutput = try shell("git init")
+                print(gitOutput)
             }
         } catch {
-            print("There was an error")
+            print("There was an error: \(error.localizedDescription)")
         }
     }
 }
@@ -55,7 +57,8 @@ struct Build: ParsableCommand {
     
     func run() throws {
         do {
-            try shell("swift build -c debug --triple wasm32-unknown-wasi")
+            let output = try shell("swift build -c debug --triple wasm32-unknown-wasi")
+            print(output)
         } catch {
             print("Error building")
         }
@@ -70,7 +73,8 @@ struct Run: ParsableCommand {
     
     func run() throws {
         do {
-            try shell("fastly compute serve --skip-build --file ./.build/debug/\(name).wasm")
+            let output = try shell("fastly compute serve --skip-build --file ./.build/debug/\(name).wasm")
+            print(output)
         } catch {
             print("Error running")
         }
